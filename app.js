@@ -15,15 +15,17 @@ app.use(cors());
 
 
 var indexRouter = require('./routes/index');
-var axieRouter = require('./routes/axies');
+var axieRouter = require('./routes/game');
+var kingdomRouter = require('./routes/game2');
 var startkitRouter = require('./routes/startkit');
 //var recommendRouter = require('./routes/recommend');
 
 
 app.use("/", indexRouter);
-app.use("/axies", axieRouter);
+app.use("/game", axieRouter);
 //app.use("/recommend", recommendRouter);
 app.use("/startkit", startkitRouter);
+app.use("/game2",kingdomRouter);
 
 
 app.listen(PORT, ()=>{
