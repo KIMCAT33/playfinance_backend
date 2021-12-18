@@ -68,6 +68,33 @@ router.post("/", async (req,res)=>{
         kingitems.push(dummy);
     }
   
+    
+    for(var i=0; i<kingdomAsset.length; i++){
+        const asset_contract = kingdomAsset[i].contractAddress;
+        const token_id = kingdomAsset[i].tokenID;
+
+        const priceurl = 'https://api.nftbank.ai/estimates-v2/estimates/' + asset_contract + "/" + token_id + '?chain_id=ETHEREUM';
+
+   
+        
+        var options = {
+            method: 'GET',
+            url: priceurl,
+            headers: {
+                "x-api-key": "9e0a389984cc8dabdd5abfd504fc1a4d" ,
+            }
+        };
+        
+        let result = await axios.request(options);
+           // const json = JSON.stringify(res, null, 2);
+            // console.log(JSON.parse(JSON.stringify(res.data.data, null, 2)));
+        totalvalue += parseFloat(JSON.stringify(result.data["data"][0]['estimate'][1]["estimate_price"]));
+                   
+       
+
+
+        
+    }
    
 
 
@@ -105,7 +132,7 @@ router.post("/", async (req,res)=>{
             "game": "KING",
             "data": {
                 "coin": ["ETH"],
-                "TotalValue":"$87186.53",
+                "TotalValue":"$"+totalvalue,
                 "item": kingitems,
 
             }
