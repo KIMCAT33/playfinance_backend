@@ -97,11 +97,11 @@ router.post("/", async (req,res)=>{
     }
    
 
-
+    const net_worth = totalvalue + 481;
     
     
     let data = {
-        "net_worth": "$87,667.53",
+        "net_worth": "$"+net_worth,
         "game1": {
             "game": "AXIE",
             "data": {
