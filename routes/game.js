@@ -4,11 +4,11 @@ const router = express.Router();
 
 
 router.post("/", async (req,res)=>{
-    const address1 = req.body.address1;
+
     const address2 = req.body.address2;
 
-let AxiewalletAddress = "0x6e69ca5509d2b350fea503fc087f192a14cd7d80"
-    //let walletAddress = "0x" + req.body.address1; // Ronin 지갑 주소
+//let AxiewalletAddress = "0x6e69ca5509d2b350fea503fc087f192a14cd7d80"
+    let AxiewalletAddress = "0x" + req.body.address1; // Ronin 지갑 주소
 
 
     var axios = require("axios").default;
@@ -28,12 +28,12 @@ let AxiewalletAddress = "0x6e69ca5509d2b350fea503fc087f192a14cd7d80"
 
 
 
-    let KingwalletAddress = "0x68b1db4d5fcf86fbe70f3d103928b69727f38e1e"
+    //let KingwalletAddress = "0x68b1db4d5fcf86fbe70f3d103928b69727f38e1e"
     //let walletAddress =  req.params.address; // Ethereum 지갑 주소
 
     
 
-    const url = 'https://api.etherscan.io/api?module=account&action=tokennfttx&address=' + KingwalletAddress +  '&startblock=0&endblock=999999999&sort=asc&apikey=AP3TBHGQTH3R12VGWY343ITJI326CDKJYT';
+    const url = 'https://api.etherscan.io/api?module=account&action=tokennfttx&address=' + req.body.address2 +  '&startblock=0&endblock=999999999&sort=asc&apikey=AP3TBHGQTH3R12VGWY343ITJI326CDKJYT';
     const Kingresponse = await axios.get(url);
     let result = JSON.parse(JSON.stringify(Kingresponse.data.result),null,2);
 
