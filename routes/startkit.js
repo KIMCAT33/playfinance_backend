@@ -57,6 +57,9 @@ function SETS(SetA, SetB, SetC){
     return JSON.stringify(SETS,null,2);
 }
 
+router.get("/",(req, res)=> {
+    res.send("api is healthy.");
+})
 
 router.post("/", async (req,res)=>{
     /*
