@@ -54,11 +54,11 @@ router.post("/", async (req,res)=>{
         const token_id = kingdomAsset[i].tokenID;
         
         if(i%3 == 0) {
-            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land135643.png"
+            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land1.png"
         }else if (i%3 ==1){
-            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land145460.png"
+            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land2.png"
         }else {
-            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land150796.png"
+            landimage = "d3q0siyoqyfxp4.cloudfront.net/kingdom/land3.png"
         }
         
         const dummy = {
