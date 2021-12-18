@@ -1,0 +1,119 @@
+const express = require("express");
+const router = express.Router();
+var axios = require("axios").default;
+
+var ethPrice = 0;
+
+// A SET라면 각 엑시 애셋에 대한 SET를 만들기 
+function Set(type, id1, id2, id3, price, ethereumPrice, IC, TEP, DP, AMDP, bep, CR1M, CR2M,CR4M,CR6M,CR1Y){
+    const url_prefix = 'https://storage.googleapis.com/assets.axieinfinity.com/axies/';
+    const url_endfix = '/axie/axie-full-transparent.png';
+    const url1 = url_prefix+id1+url_endfix;
+    const url2 = url_prefix+id2+url_endfix;
+    const url3 = url_prefix+id3+url_endfix;
+    const settype = ("set" + type); // type : A, B, C
+    
+    const SET = {}    
+    SET[settype] = [
+               {
+                "item":[
+                    {
+                    "url": url1,
+                    "id": id1,
+                    },
+                    {
+                    "url": url2,
+                    "id": id2,
+                    },
+                    {
+                    "url": url3,
+                    "id": id3,
+                    }
+                ],
+                "price": price,
+                "ethereumPrice": ethereumPrice,
+                "initalCost": IC,
+                "totalExpectedProfit": TEP,
+                "dailyProfit": DP,
+                "afterMonthDailyProfit": AMDP,
+                "bep": bep,
+                "cumulativRevenue1Month": CR1M,
+			    "cumulativRevenue2Month": CR2M,
+			    "cumulativRevenue4Month": CR4M,
+			    "cumulativRevenue6Month": CR6M,
+			    "cumulativRevenue1Year": CR1Y,
+        }
+    ];
+    return SET;
+}
+
+// A, B, C 세트를 합쳐서 SET 만들기 
+function SETS(SetA, SetB, SetC){
+    const SETS = [
+        SetA,
+        SetB,
+        SetC,
+    ];
+    return JSON.stringify(SETS,null,2);
+}
+
+
+router.post("/", async (req,res)=>{
+    /*
+    req
+    Game : String  (Axie 하나만)
+    CoinType : String  (Ethereum, BSC)
+    price_range: 1 (~1000), 2(1000~2000), 3(2000~3000), 4(3000~4000), 5(4000~)
+    */
+    const Game = req.body.Games;
+    const CoinType = req.body.CoinType;
+    const price_range = req.body.price_range;
+
+
+    
+    // 바이낸스 기준 실시간 이더리움 가격
+    const response = await axios.get('https://api.coinstats.app/public/v1/markets?coinId=ethereum');
+    ethPrice = response.data[2].pairPrice;
+
+    
+    
+    if(Game == "Axie"){
+        switch(price_range){
+            case 1: // (~1000)
+                 //type, id1, id2, id3, price, ethereumPrice, IC, TEP, DP, AMDP, bep, CR1M, CR2M,CR4M,CR6M,CR1Y
+                Aset = Set("A", "1386014","8185369","9974679",737,ethPrice, 737,11.55,0.385,0.455,1594.395604,11.55,25.2,52.5,79.8,161.7);
+                Bset = Set("B", "1307363","4119127","9545267",806,ethPrice, 806,11.55,0.385,0.455,1746.043956,11.55,25.2,52.5,79.8,161.7);
+                Cset = Set("C", "9257002","842593","9877382",930,ethPrice, 930,11.55,0.385,0.455,2018.571429,11.55,25.2,52.5,79.8,161.7);
+                res.send(JSON.parse(SETS(Aset, Bset, Cset)));
+                break;
+            case 2: // (1000~2000)
+                Aset = Set("A", "8662321","6790040","10131634",1200,ethPrice, 1200,66.15,2.205,2.31,490.8441558,66.15,135.45,274.05,412.65,828.45);
+                Bset = Set("B", "10012274","7937729","3089420",1400,ethPrice, 1400,66.15,2.205,2.31,577.4242424,66.15,135.45,274.05,412.65,828.45);
+                Cset = Set("C", "10108469","4896240","7111102",1800,ethPrice, 1800,66.15,2.205,2.31,750.5844156,66.15,135.45,274.05,412.65,828.45);
+                res.send(JSON.parse(SETS(Aset, Bset, Cset)));
+                break;
+            case 3: // (2000~3000)
+                Aset = Set("A", "9117853","9241378","8220077",2200,ethPrice, 2200,163.8,5.46,5.565,365.8939802,163.8,330.75,664.65,998.55,2000.25);
+                Bset = Set("B", "1869646","6876198","1684120",2600,ethPrice, 2600,163.8,5.46,5.565,437.771788,163.8,330.75,664.65,998.55,2000.25);
+                Cset = Set("C", "2748292","10250845","10236183",2800,ethPrice, 2800,163.8,5.46,5.565,473.7106918,163.8,330.75,664.65,998.55,2000.25);
+                res.send(JSON.parse(SETS(Aset, Bset, Cset)));
+                break;
+            case 4: // (3000~4000)
+                Aset = Set("A", "1489887","2195259","8376482",3100,ethPrice, 3100,303.45,10.115,10.22,273.6350294,303.45,610.05,1223.25,1836.45,3676.05);
+                Bset = Set("B", "6045416","3378386","1486159",3500,ethPrice, 3500,303.45,10.115,10.22,312.7739726,303.45,610.05,1223.25,1836.45,3676.05);
+                Cset = Set("C", "4700200","3089588","2442318",3800,ethPrice, 3800,303.45,10.115,10.22,342.12818,303.45,610.05,1223.25,1836.45,3676.05);
+                res.send(JSON.parse(SETS(Aset, Bset, Cset)));
+                break;
+            case 5: //(4000~5000)
+                Aset = Set("A", "1627420","7942229","3278154",4600,ethPrice, 4600,485.1,16.17,16.275,252.8356375,485.1,973.35,1949.85,2926.35,5855.85);
+                Bset = Set("B", "2395201","2493640","6204199",4900,ethPrice, 4900,485.1,16.17,16.275,271.2688172,485.1,973.35,1949.85,2926.35,5855.85);
+                Cset = Set("C", "9968645","9998970","4281354",5500,ethPrice, 5500,485.1,16.17,16.275,308.1351767,485.1,973.35,1949.85,2926.35,5855.85);
+                res.send(JSON.parse(SETS(Aset, Bset, Cset)));
+                break;
+        }
+    }
+    
+
+});
+
+module.exports = router;
